@@ -68,7 +68,7 @@ import UIKit
     //смещение хелпера вправо
     @IBInspectable
     var helperOffset: CGFloat = 10
-        {
+    {
         didSet {
             layoutSubviews()
         }
@@ -77,7 +77,7 @@ import UIKit
     //размер хелпера
     @IBInspectable
     var helperSize : CGFloat = 10
-        {
+    {
         didSet {
             layoutSubviews()
         }
@@ -86,7 +86,7 @@ import UIKit
     //расстояние между хелпером и основным текстом
     @IBInspectable
     var spaceBetweenHelperAndLabel : CGFloat = 0
-        {
+    {
         didSet {
             layoutSubviews()
         }
@@ -104,6 +104,14 @@ import UIKit
     @IBInspectable
     var needUppercaseFirstChars : Bool = false
     
+    @IBInspectable
+    var placeholderColor: UIColor = UIColor.darkGray
+    
+    @IBInspectable
+    var borderWidth: CGFloat = 0
+    
+    @IBInspectable
+    var borderColor: UIColor = UIColor.black
     
     
     
@@ -295,13 +303,16 @@ public extension AndroidTextField
 {
     fileprivate func setup()
     {
-        self.borderStyle = .none
+        self.attributedPlaceholder = NSAttributedString(string: placeholder ?? "",
+                                                        attributes: [NSForegroundColorAttributeName: placeholderColor])
+        self.layer.borderWidth = borderWidth
+        self.layer.borderColor = borderColor.cgColor
     }
     
     
     fileprivate func configure()
     {
-        if needBottomLine
+        if needBottomLine && borderStyle == .none
         {
             let bottomLine = CALayer()
             bottomLine.name = "bottomLine"
